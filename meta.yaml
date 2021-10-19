@@ -1,0 +1,7 @@
+metadata:
+  name: che-idea-ultimate
+components:
+  - type: cheEditor
+    reference: 'https://raw.githubusercontent.com/ldepandis/che-idea-ultimate/main/latest.meta.yaml'
+    alias: che-idea-ultimate
+apiVersion: 1.0.0
