@@ -9,7 +9,7 @@ components:
     id: redhat/dependency-analytics/latest
   - type: dockerimage
     alias: tomcat
-    image: quay.io/kiratech_ldepandis/tomcat:latest
+    image: docker.io/library/tomcat:jdk17-openjdk-slim
     memoryLimit: 1024Mi
     endpoints:
       - name: tomcat
