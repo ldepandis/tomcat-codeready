@@ -1,19 +1,64 @@
 apiVersion: 1.0.0
 metadata:
-  generateName: java-tomcat-
-projects: []
+  name: java-tomcat-2
+projects:
+  - name: kitchensink-example
+    source:
+      location: 'https://devfile-registry-openshift-workspaces.apps.ocp4-lab.kiratech.lan/resources/java-eap-maven-kitchensink-example-7.4.x.zip'
+      type: zip
 components:
-  - type: chePlugin
-    id: redhat/java8/latest
-  - type: chePlugin
-    id: redhat/dependency-analytics/latest
-  - type: dockerimage
-    alias: tomcat
-    image: docker.io/library/tomcat:jdk17-openjdk-slim
-    memoryLimit: 1024Mi
+  - id: redhat/java8/latest
+    type: chePlugin
+  - id: redhat/dependency-analytics/latest
+    type: chePlugin
+  - mountSources: false
     endpoints:
-      - name: tomcat
-        port: 8080
-        attributes:
+      - attributes:
           path: /
-    mountSources: false
+        name: tomcat
+        port: 8080
+    memoryLimit: 1024Mi
+    type: dockerimage
+    alias: tomcat
+    image: 'docker.io/library/tomcat:jdk17-openjdk-slim'
+commands:
+  - name: 1. Build
+    actions:
+      - workdir: '${CHE_PROJECTS_ROOT}/kitchensink-example/kitchensink-jsp'
+        type: exec
+        command: mvn clean install
+        component: maven
+  - name: 2. Configure web server
+    actions:
+      - workdir: /opt/tomcat/bin
+        type: exec
+        command: './startup.sh && echo ''Server was configured'''
+        component: maven
+  - name: 3. Copy war
+    actions:
+      - workdir: '${CHE_PROJECTS_ROOT}/kitchensink-example/kitchensink-jsp'
+        type: exec
+        command: 'cp target/*.war /opt/tomcat/webapps/ROOT.war && echo ''Archive was deployed, click on tomcat endpoint from Workspace view to open the application'''
+        component: maven
+  - name: 4. Hot update
+    actions:
+      - workdir: '${CHE_PROJECTS_ROOT}/kitchensink-example/kitchensink-jsp'
+        type: exec
+        command: mvn clean install && sleep 2 && cp target/*.war /opt/tomcat/webapps/ROOT.war
+        component: maven
+  - name: Debug (Attach)
+    actions:
+      - referenceContent: |
+          {
+          "version": "0.2.0",
+          "configurations": [
+          {
+              "type": "java",
+              "request": "attach",
+              "name": "Debug (Attach)",
+              "hostName": "localhost",
+              "port": 8000
+          }
+          ]
+          }
+        type: vscode-launch
