@@ -27,25 +27,25 @@ commands:
       - workdir: '${CHE_PROJECTS_ROOT}/kitchensink-example/kitchensink-jsp'
         type: exec
         command: mvn clean install
-        component: maven
+        component: tomcat
   - name: 2. Configure web server
     actions:
       - workdir: /opt/tomcat/bin
         type: exec
         command: './startup.sh && echo ''Server was configured'''
-        component: maven
+        component: tomcat
   - name: 3. Copy war
     actions:
       - workdir: '${CHE_PROJECTS_ROOT}/kitchensink-example/kitchensink-jsp'
         type: exec
         command: 'cp target/*.war /opt/tomcat/webapps/ROOT.war && echo ''Archive was deployed, click on tomcat endpoint from Workspace view to open the application'''
-        component: maven
+        component: tomcat
   - name: 4. Hot update
     actions:
       - workdir: '${CHE_PROJECTS_ROOT}/kitchensink-example/kitchensink-jsp'
         type: exec
         command: mvn clean install && sleep 2 && cp target/*.war /opt/tomcat/webapps/ROOT.war
-        component: maven
+        component: tomcat
   - name: Debug (Attach)
     actions:
       - referenceContent: |
