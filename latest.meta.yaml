@@ -20,7 +20,7 @@ components:
     memoryLimit: 1024Mi
     type: dockerimage
     alias: tomcat
-    image: 'docker.io/library/tomcat:jdk17-openjdk-slim'
+    image: 'quay.io/ldepandis_kiratech/jrc-codeready-tomcat:9.0.54'
 commands:
   - name: 1. Build
     actions:
