@@ -32,7 +32,7 @@ commands:
     actions:
       - workdir: /opt/tomcat/bin
         type: exec
-        command: './startup.sh && echo ''Server was configured'''
+        command: './catalina.sh run && echo ''Server was configured'''
         component: tomcat
   - name: 3. Copy war
     actions:
