@@ -25,7 +25,6 @@ components:
     volumes:
       - name: m2
         containerPath: /home/jboss/.m2
-
 commands:
   - name: 1. Build
     actions:
