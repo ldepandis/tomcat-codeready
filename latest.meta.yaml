@@ -47,7 +47,7 @@ commands:
     actions:
       - workdir: '${CHE_PROJECTS_ROOT}/kitchensink-example/kitchensink-jsp'
         type: exec
-        command: 'cp target/*.war /opt/tomcat/webapps/ROOT.war && echo ''Archive was deployed, click on tomcat endpoint from Workspace view to open the application'''
+        command: '/opt/tomcat/bin/catalina.sh stop && cp target/*.war /opt/tomcat/webapps/ROOT.war && /opt/tomcat/bin/catalina.sh start && echo ''Archive was deployed, click on tomcat endpoint from Workspace view to open the application'''
         component: tomcat
   - name: 4. Hot update
     actions:
