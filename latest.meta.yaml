@@ -21,6 +21,11 @@ components:
     type: dockerimage
     alias: tomcat
     image: 'quay.io/lucadepandis_kiratech/jrc-codeready-tomcat:9.0.54'
+    mountSources: true
+    volumes:
+      - name: m2
+        containerPath: /home/jboss/.m2
+
 commands:
   - name: 1. Build
     actions:
