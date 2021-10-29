@@ -37,23 +37,17 @@ commands:
         type: exec
         command: 'sudo chown -R jboss ${CHE_PROJECTS_ROOT}/kitchensink-example && mvn clean install'
         component: tomcat
-  - name: 2. Configure web server
-    actions:
-      - workdir: /opt/tomcat/bin
-        type: exec
-        command: './catalina.sh run && echo ''Server was configured'''
-        component: tomcat
-  - name: 3. Copy war
+  - name: 2. Copy war
     actions:
       - workdir: '${CHE_PROJECTS_ROOT}/kitchensink-example/kitchensink-jsp'
         type: exec
         command: '/opt/tomcat/bin/catalina.sh stop && cp target/*.war /opt/tomcat/webapps/ROOT.war && /opt/tomcat/bin/catalina.sh start && echo ''Archive was deployed, click on tomcat endpoint from Workspace view to open the application'''
         component: tomcat
-  - name: 4. Hot update
+  - name: 3. Hot update
     actions:
       - workdir: '${CHE_PROJECTS_ROOT}/kitchensink-example/kitchensink-jsp'
         type: exec
-        command: mvn clean install && sleep 2 && cp target/*.war /opt/tomcat/webapps/ROOT.war
+        command: 'mvn clean install && sleep 2 && /opt/tomcat/bin/catalina.sh stop && cp target/*.war /opt/tomcat/webapps/ROOT.war && /opt/tomcat/bin/catalina.sh run'
         component: tomcat
   - name: Debug (Attach)
     actions:
