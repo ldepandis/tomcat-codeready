@@ -4,8 +4,11 @@ metadata:
 projects:
   - name: kitchensink-example
     source:
-      location: 'https://devfile-registry-openshift-workspaces.apps.ocp4-lab.kiratech.lan/resources/java-eap-maven-kitchensink-example-7.4.x.zip'
-      type: zip
+      location: 'https://github.com/jboss-developer/jboss-eap-quickstarts.git'
+      branch: 7.4.x
+      commitId: 0bdec06d9ce7131b3014745d7267ab788529e2ce
+      type: git
+      sparseCheckoutDir: kitchensink-jsp
 components:
   - id: redhat/java8/latest
     type: chePlugin
@@ -24,8 +27,9 @@ components:
     volumes:
       - name: m2
         containerPath: /home/jboss/.m2
-      - name: projects
-        containerPath: /projects
+    env:
+      - name: MAVEN_OPTS
+        value: '-Xmx200m -XX:+UseParallelGC -XX:MinHeapFreeRatio=10 -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom -Duser.home=/home/jboss'
 commands:
   - name: 1. Build
     actions:
