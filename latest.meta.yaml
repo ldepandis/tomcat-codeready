@@ -11,8 +11,7 @@ components:
     type: chePlugin
   - id: redhat/dependency-analytics/latest
     type: chePlugin
-  - mountSources: false
-    endpoints:
+  - endpoints:
       - attributes:
           path: /
         name: tomcat
