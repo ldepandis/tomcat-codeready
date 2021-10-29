@@ -35,7 +35,7 @@ commands:
     actions:
       - workdir: '${CHE_PROJECTS_ROOT}/kitchensink-example/kitchensink-jsp'
         type: exec
-        command: mvn clean install
+        command: 'sudo chown -R jboss ${CHE_PROJECTS_ROOT}/kitchensink-example && mvn clean install'
         component: tomcat
   - name: 2. Configure web server
     actions:
